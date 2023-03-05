@@ -3,6 +3,7 @@
 This project is heavily inspired by:
 - https://github.com/crossclaim/btcrelay-sol
 - https://github.com/ethereum/btcrelay
+
 Bitcoin relay is an on-chain program used to verify and store bitcoin blockheaders. This program is completely permissionless and trustless, anyone can write blockheaders as their validity is verified on-chain.
 
 ## Verification
