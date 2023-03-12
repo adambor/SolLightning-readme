@@ -1,5 +1,16 @@
 # SolBridge
 
+## Explainers
+- [Bitcoin lightning <-> Solana](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
+- [Bitcoin on-chain <-> Solana](https://github.com/adambor/SolLightning-readme/blob/main/sol-onchain-swaps.md)
+
+## Navigation
+- [Bitcoin relay on-chain program](https://github.com/adambor/BTCRelay-Sol)
+- [Bitcoin relay off-chain app](https://github.com/adambor/BTCRelay-Sol-Offchain)
+- [Swap on-chain program](https://github.com/adambor/SolLightning-program)
+- [Swap intermediary implementation](https://github.com/adambor/SolLightning-Intermediary)
+- [Swap SDK](https://github.com/adambor/SolLightning-sdk)
+
 ## What problems are we solving?
 - bitcoin is almost always left out of all the cross-chain bridges (as they are mostly focused on EVM chains), even though it has attained the highest liquidity and it has an immense network effect
 - few existing solution includes mainly trusted bridges or solutions like ren, relying on incentivised decentralized quorum of nodes
@@ -16,13 +27,13 @@
 - an atomic swap between bitcoin lightning and Solana on-chain
 - exploits the property that lightning network invoice requires the recipient to reveal a pre-image for the payment to execute
 - can improve on a security of regular atomic swaps by locking the the swap not till a specific timestamp but till a **Bitcoin Relay** conract reaches the specific blockheight
-- in depth explanation [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
+in depth explanation [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
 
 ### PTLC and atomic swaps (on-chain)
 #### PTLC
 - transaction proof is not a pre-image to a hash but instead a proof that the transaction was included in a bitcoin block that was mined
 
-- in depth explanation [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-onchain-swaps.md)
+in depth explanation [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-onchain-swaps.md)
 
 ### Swap program
 #### Lightning swaps
@@ -37,8 +48,8 @@ Creates an atomic swap like contract, where:
 Creates an atomic swap contract, where:
 - transaction proof is the pre-image of the hash needed to unlock the HTLC on bitcoin
 
-- [on-chain program repo](https://github.com/adambor/SolLightning-program)
-- [off-chain intermediary implementation repo](https://github.com/adambor/SolLightning-Intermediary)
+[on-chain program repo](https://github.com/adambor/SolLightning-program)
+[off-chain intermediary implementation repo](https://github.com/adambor/SolLightning-Intermediary)
 
 ## Solution
 - an SDK for wallet developers, allowing any wallet to trustlessly receive and send bitcoin (on-chain and lightning)
