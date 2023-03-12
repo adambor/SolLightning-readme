@@ -27,6 +27,7 @@
 - an atomic swap between bitcoin lightning and Solana on-chain
 - exploits the property that lightning network invoice requires the recipient to reveal a pre-image for the payment to execute
 - can improve on a security of regular atomic swaps by locking the the swap not till a specific timestamp but till a **Bitcoin Relay** conract reaches the specific blockheight
+
 in depth explanation [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
 
 ### PTLC and atomic swaps (on-chain)
@@ -49,6 +50,7 @@ Creates an atomic swap contract, where:
 - transaction proof is the pre-image of the hash needed to unlock the HTLC on bitcoin
 
 [on-chain program repo](https://github.com/adambor/SolLightning-program)
+
 [off-chain intermediary implementation repo](https://github.com/adambor/SolLightning-Intermediary)
 
 ## Solution
