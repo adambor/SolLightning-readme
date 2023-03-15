@@ -10,6 +10,7 @@
 - [Swap on-chain program](https://github.com/adambor/SolLightning-program)
 - [Swap intermediary implementation](https://github.com/adambor/SolLightning-Intermediary)
 - [Swap SDK](https://github.com/adambor/SolLightning-sdk)
+- [Proof of concept React web-app utilizing Swap SDK](https://github.com/adambor/SolLightning-PoC)
 
 ## What problems are we solving?
 - bitcoin is almost always left out of all the cross-chain bridges (as they are mostly focused on EVM chains), even though it has attained the highest liquidity and it has an immense network effect
