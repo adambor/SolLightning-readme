@@ -13,9 +13,11 @@
 - [Proof of concept React web-app utilizing Swap SDK](https://github.com/adambor/SolLightning-PoC)
 
 ## Testing the PoC
-You can access the PoC web app on: https://sollightning.z6.web.core.windows.net/ .
-Be sure to switch your wallet do devnet!
-You can then use a testnet bitcoin wallet at https://htlc.me/ to first send some funds (btcln -> solana) and then receive some funds (solana -> btcln)
+You can access the demo PoC webapp [here](https://sollightning.z6.web.core.windows.net/).
+Be sure to switch your wallet to devnet and have some devnet solana in, to cover transaction fees.
+Then you can use a lightning network testnet wallet [here](https://htlc.me/) (you will receive some testnet bitcoin when you create a wallet).
+First try receiving (btcln -> solana), so you can get some devnet wbtc, and then you can also send (solana -> btcln).
+For testing on-chain you can use a wallet [here](https://sereneblue.github.io/blt-wallet)
 
 ## What problems are we solving?
 - bitcoin is almost always left out of all the cross-chain bridges (as they are mostly focused on EVM chains), even though it has attained the highest liquidity and it has an immense network effect
