@@ -17,14 +17,6 @@ You can access the demo PoC webapp [here](https://sollightning.z6.web.core.windo
 
 Be sure to switch your wallet to devnet and have some devnet solana in, to cover transaction fees.
 
-Add the devnet WBTC token to your phantom wallet Deposit > Plus icon in the top right.
-
-Token address: Ag6gw668H9PLQFyP482whvGDoAseBWfgs5AfXCAK3aMj
-
-Token name: WBTC
-
-Token symbol: WBTC
-
 Then you can use a lightning network testnet wallet [here](https://htlc.me/) (you will receive some testnet bitcoin when you create a wallet).
 
 First try receiving (btcln -> solana), so you can get some devnet wbtc, and then you can also send (solana -> btcln).
