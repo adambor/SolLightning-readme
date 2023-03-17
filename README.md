@@ -21,7 +21,7 @@ Then you can use a lightning network testnet wallet [here](https://htlc.me/) (yo
 
 First try receiving (btcln -> solana), so you can get some devnet wbtc, and then you can also send (solana -> btcln).
 
-For testing on-chain you can use a wallet [here](https://sereneblue.github.io/blt-wallet)
+For testing on-chain, you will need to download a bitcoin testnet wallet (unfortunatelly there is no online testnet web wallet). But for sending (solana -> btc) you can just try sending to some random testnet address (e.g. mijXVEL3Ko6fuE1p8M42R95ndVhgQGexEo) and then check it on block explorer [here](https://mempool.space/testnet/address/mijXVEL3Ko6fuE1p8M42R95ndVhgQGexEo)
 
 ## What problems are we solving?
 - bitcoin is almost always left out of all the cross-chain bridges (as they are mostly focused on EVM chains), even though it has attained the highest liquidity and it has an immense network effect
