@@ -89,3 +89,6 @@ Creates an atomic swap contract, where:
 
 ## Business model
 - taking a small fee (0.1%) from every transaction and saving it in a treasury
+
+## Contact
+Via mail: adamborcany(at)gmail(dot)com
