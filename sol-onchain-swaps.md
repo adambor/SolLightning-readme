@@ -34,45 +34,7 @@ Contract similar to HTLC (hash-time locked contract), where claimer needs to pro
 4. **Payer** waits till the expiry of _locktime T_ and then refunds his funds back from the PTLC
 
 
-
 ## Bitcoin on-chain -> Solana
-
-### Requirements
-- payee needs to claim the transaction manually, once it confirms on bitcoin chain
-
-### Parties
-- **payee** - recipient of the solana/spl token, using intermediary to do the swap
-- **intermediary** - handling the swap, sends solana or spl token and receives bitcoin on-chain payment
-- **payer** - the one paying bitcoin on-chain
-
-### Process
-1. **Payee** generates a _secret S_, a _payment hash P_ that is produced by _hash of secret H(S)_ and a _secp256k1 keypair for signing bitcoin transactions Kp_
-2. **Payee** queries the **intermediary** off-chain, with publickey of his _keypair Kp_, _payment hash P_ and _locktime T1_ he wishes to use, **intermediary** returns his swap fee, min/max receivable along with **intermediary's** _public key Ki_ and generated _bitcoin address A_ which is an HTLC such that:
-	- paying the funds to **intermediary** if he can supply a valid _secret S_, such that _hash of secret H(S)_ is equal to _payment hash P_
-	- refunding the **payee**, but only after _locktime T1_
-	- refunding the **payee**, but this can only be intiated with signatures from both **payee** and **intermediary** (cooperative close)
-
-3. **Payer** sends an on-chain payment to _bitcoin address A_
-4. **Payee** observes the on-chain payment by **payer** and waits till it has enough confirmations.
-5. **Payee** queries the **intermediary** off-chain to obtain a specific message _Mi (initialize)_ signed by **intermediary** allowing **payee** to create an HTLC on Solana with funds pulled from **intermediary's** vault, an HTLC is constructed:
-	- paying the funds to **payee** if he can supply a valid _secret S_, such that _hash of secret H(S)_ is equal to _payment hash P_, but only until a specific time in the future - _locktime T2_
-	- refunding the **intermediary**, but only after _locktime T2_
-
-    **NOTE:** _locktime T2_ is determined by **intermediary** strictly lower than _locktime T1_, since **intermediary** needs to have a knowledge of _secret S_ and his sweep transaction on bitcoin needs to confirm before _locktime T1_.
-
-##### Successful payment
-6. Upon confirmation of HTLC creation's transaction on Solana, **payee** submits a second transaction revealing the _secret S_ and claiming the funds from HTLC
-7. **Intermediary** observes this transaction on Solana and uses the revealed _secret S_ to sweep his funds from the HTLC on bitcoin.
-
-##### Payee went offline
-6. **Intermediary** waits till the expiry of _locktime T2_ and then refunds his funds back from the HTLC
-
-##### Intermediary went offline
-6. **Payee** waits till the expiry of _locktime T1_ and can then either retry the swap with different intermediary, or send the bitcoin back to sender (all the while paying a bitcoin network fee)
-
-
-
-## Bitcoin on-chain -> Solana (discontinued)
 
 ### Requirements
 - an amount of bitcoin to receive must be known upfront
@@ -100,3 +62,27 @@ Contract similar to HTLC (hash-time locked contract), where claimer needs to pro
 
 ##### Payment cancelled
 3. **Payee** is sure that no bitcoin payment will come and wishes to cancel the payment (there is no going back from there), he closes the PTLC, refunding the funds back to **intermediary** while keeping part of the non-refundable fee
+
+
+## Watchtowers
+For Bitcoin on-chain -> Solana swaps, the payee needs to be online in time after the bitcoin transaction confirms on bitcoin blockchain, should he wait too long before claiming the funds, the PTLC might expire and he looses the funds.
+### Solutions:
+1. Having the locktimes for the PTLCs very long (1 week or 1 month)
+    - not ideal, since it will make the swaps very capital inefficient for intermediaries.
+2. Delegate this act of claiming to a third party, a Watchtower, which will be always online and claims the swap for us as soon as it confirms on bitcoin chain
+    - requires us to trust the watchtower we use and also somehow incentivize it
+
+An approach for using watchtower was choosen for SolLightning.
+
+We can reduce the trust aspect by using multiple watchtowers, further we can incentivize watchtowers by letting them claim the Solana in a PTLC PDA (needed for the account to be rent exempt \~0.0027 SOL). We can then merge this watchtower implementation with BTC Relay implementation, allowing the relayers to earn fees by claiming the swaps on behalf of the clients.
+
+
+### Parties
+- **claimer** - recipient of the solana/spl token from PTLC
+- **watchtower** - claiming the tokens to claimer's account, on claimer's behalf
+
+### Process:
+1. Observes an event of creation of PTLC on-chain (PTLC creator/claimer must explicitly opt-in for this feature)
+2. Starts checking if subsequent bitcoin blocks contain the required transaction
+3. If the transaction was found, the watchtower waits till that transaction gets required number of confirmations on bitcoin blockchain
+4. Claims the funds from the PTLC to the claimer's account, and receives \~0.0027 SOL as a fee (which was initially paid by the creator/claimer to create the PTLC).
