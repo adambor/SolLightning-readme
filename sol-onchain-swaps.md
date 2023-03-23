@@ -89,3 +89,12 @@ We can reduce the trust aspect by using multiple watchtowers, further we can inc
 
 ### Security considerations
 Requires at least 1 honest relayer in the network to be online before the PTLC expires, otherwise the claimer looses funds if he doesn't claim the funds himself.
+
+## Why not atomic swaps?
+Initial idea was to use atomic swaps for Bitcoin on-chain -> Solana swaps, but those aren't the best solution and they come with their own set of drawbacks:
+- higher costs and on-chain footprint on bitcoin (requires 2 transactions)
+- an attack vector where client intentionally waits till bitcoin fees raise to claim the HTLC on Solana, leaving intermediary with a dilemma of either spending way too much on fees or forfeiting the value he receives on bitcoin
+- possibility for either of the parties to back out in case of unfavorable exchange rates
+
+## Credits
+Credits for an idea using bitcoin relay and watchtowers for Bitcoin on-chain -> Solana swaps goes to [Omid Aladini](https://github.com/omidaladini).
