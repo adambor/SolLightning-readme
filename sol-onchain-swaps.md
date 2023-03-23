@@ -66,7 +66,7 @@ Contract similar to HTLC (hash-time locked contract), where claimer needs to pro
 
 ## Watchtowers
 For Bitcoin on-chain -> Solana swaps, the payee needs to be online in time after the bitcoin transaction confirms on bitcoin blockchain, should he wait too long before claiming the funds, the PTLC might expire and he looses the funds.
-### Solutions:
+### Solutions
 1. Having the locktimes for the PTLCs very long (1 week or 1 month)
     - not ideal, since it will make the swaps very capital inefficient for intermediaries.
 2. Delegate this act of claiming to a third party, a Watchtower, which will be always online and claims the swap for us as soon as it confirms on bitcoin chain
@@ -81,8 +81,11 @@ We can reduce the trust aspect by using multiple watchtowers, further we can inc
 - **claimer** - recipient of the solana/spl token from PTLC
 - **watchtower** - claiming the tokens to claimer's account, on claimer's behalf
 
-### Process:
+### Process
 1. Observes an event of creation of PTLC on-chain (PTLC creator/claimer must explicitly opt-in for this feature)
 2. Starts checking if subsequent bitcoin blocks contain the required transaction
 3. If the transaction was found, the watchtower waits till that transaction gets required number of confirmations on bitcoin blockchain
 4. Claims the funds from the PTLC to the claimer's account, and receives \~0.0027 SOL as a fee (which was initially paid by the creator/claimer to create the PTLC).
+
+### Security considerations
+Requires at least 1 honest relayer in the network to be online before the PTLC expires, otherwise the claimer looses funds if he doesn't claim the funds himself.
