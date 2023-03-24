@@ -9,6 +9,7 @@
 - [Bitcoin relay off-chain app](https://github.com/adambor/BTCRelay-Sol-Offchain)
 - [Swap on-chain program](https://github.com/adambor/SolLightning-program)
 - [Swap intermediary implementation](https://github.com/adambor/SolLightning-Intermediary)
+- [Swap intermediary TypeScript implementation (newer)](https://github.com/adambor/SolLightning-Intermediary-TS)
 - [Swap SDK](https://github.com/adambor/SolLightning-sdk)
 - [Proof of concept React web-app utilizing Swap SDK](https://github.com/adambor/SolLightning-PoC)
 
