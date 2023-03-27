@@ -20,7 +20,7 @@
 - [Proof of concept React web-app utilizing Swap SDK](https://github.com/adambor/SolLightning-PoC)
 
 ## Testing the PoC
-You can access the demo PoC webapp [here](https://sollightning.z6.web.core.windows.net/).
+You can access the demo PoC webapp [here (older version)](https://sollightning.z6.web.core.windows.net/) or [here (newer version)](https://sollightningv2.z6.web.core.windows.net/).
 
 Be sure to switch your wallet to devnet and have some devnet solana in, to cover transaction fees.
 
