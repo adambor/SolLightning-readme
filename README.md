@@ -6,12 +6,13 @@
 
 ## Navigation
 - [Bitcoin relay on-chain program](https://github.com/adambor/BTCRelay-Sol)
-- [Bitcoin relay off-chain app](https://github.com/adambor/BTCRelay-Sol-Offchain)
+- [Bitcoin relay + Watchtower TypeScript implementation (new)](https://github.com/adambor/BtcRelay-Sol-TS)
 - [Swap on-chain program](https://github.com/adambor/SolLightning-program)
-- [Swap intermediary implementation](https://github.com/adambor/SolLightning-Intermediary)
-- [Swap intermediary TypeScript implementation (newer)](https://github.com/adambor/SolLightning-Intermediary-TS)
+- [Swap intermediary TypeScript implementation (new)](https://github.com/adambor/SolLightning-Intermediary-TS)
 - [Swap SDK](https://github.com/adambor/SolLightning-sdk)
 - [Proof of concept React web-app utilizing Swap SDK](https://github.com/adambor/SolLightning-PoC)
+- [Bitcoin relay off-chain app **(deprecated)**](https://github.com/adambor/BTCRelay-Sol-Offchain)
+- [Swap intermediary implementation **(deprecated)**](https://github.com/adambor/SolLightning-Intermediary)
 
 ## Testing the PoC
 You can access the demo PoC webapp [here](https://sollightning.z6.web.core.windows.net/).
