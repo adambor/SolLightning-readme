@@ -1,4 +1,5 @@
 # SolLightning
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/SolLightning.svg?style=social&label=Follow%20%40SolLightning)](https://twitter.com/SolLightning)
 
 A fully trustless bridge protocol between Solana (any SPL token) <-> Bitcoin (on-chain and lightning). Utilizing submarine swaps (for lightning network swaps) and on-chain SPV verification through [bitcoin relay](https://github.com/adambor/BTCRelay-Sol) (for on-chain).
 
