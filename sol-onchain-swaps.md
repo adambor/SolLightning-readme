@@ -1,7 +1,9 @@
 # On-chain swaps between bitcoin and Solana utilizing bitcoin relay
 
+Uses [bitcoin relay](https://github.com/adambor/BTCRelay-Sol) for proofs that a bitcoin transaction was really sent and confirmed on bitcoin blockchain. This works by storing SPV (simplified payment verification) copy of the bitcoin blockchain on Solana, meaning bitcoin blockheaders (with merkle roots) are verified and stored on Solana. Anyone can then prove that he sent a bitcoin transaction with a merkle proof.
+
 ## PTLC (proof-time locked contract)
-Contract similar to HTLC (hash-time locked contract), where claimer needs to provide a proof instead of a secret for a hash. In this case the proof is transaction verification through bitcoin relay.
+Contract similar to HTLC (hash-time locked contract), where claimer needs to provide a proof instead of a secret for a hash. In this case the proof is transaction verification through [bitcoin relay](https://github.com/adambor/BTCRelay-Sol).
 
 
 

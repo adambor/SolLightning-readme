@@ -1,5 +1,9 @@
 # SolLightning
 
+A fully trustless bridge protocol between Solana (any SPL token) <-> Bitcoin (on-chain and lightning). Utilizing submarine swaps (for lightning network swaps) and on-chain SPV verification through [bitcoin relay](https://github.com/adambor/BTCRelay-Sol) (for on-chain).
+
+**NOTE:** We are not issuing a new wrapped bitcoin token on Solana, as that would require overcollateralization (and be exposed to exchange rate and oracle risks), which we deem insecure, therefore SolLightning is only acting as a cross-chain DEX (Any SPL token <-> Bitcoin).
+
 ## Explainers
 - [Bitcoin lightning <-> Solana](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
 - [Bitcoin on-chain <-> Solana](https://github.com/adambor/SolLightning-readme/blob/main/sol-onchain-swaps.md)
@@ -19,83 +23,64 @@
 #### Proof of concept
 - [Proof of concept React web-app utilizing Swap SDK](https://github.com/adambor/SolLightning-PoC)
 
-## Testing the PoC
+## Test the PoC
 You can access the demo PoC webapp [here (older version)](https://sollightning.z6.web.core.windows.net/) or [here (newer version)](https://sollightningv2.z6.web.core.windows.net/).
+1. Be sure to switch your wallet to devnet and have some devnet solana in, to cover transaction fees.
+2. Use a lightning network testnet wallet [here](https://htlc.me/) (you will receive some testnet bitcoin when you create a wallet).
+3. Try receiving (btcln -> solana), so you can get some devnet wbtc, and then you can also send (solana -> btcln).
+4. For testing on-chain, you will need to download a bitcoin testnet wallet (unfortunatelly there is no online testnet web wallet).
+5. For sending (solana -> btc) you can just try sending to some random testnet address (e.g. mijXVEL3Ko6fuE1p8M42R95ndVhgQGexEo) and then check it on block explorer [here](https://mempool.space/testnet/address/mijXVEL3Ko6fuE1p8M42R95ndVhgQGexEo)
 
-Be sure to switch your wallet to devnet and have some devnet solana in, to cover transaction fees.
-
-Then you can use a lightning network testnet wallet [here](https://htlc.me/) (you will receive some testnet bitcoin when you create a wallet).
-
-First try receiving (btcln -> solana), so you can get some devnet wbtc, and then you can also send (solana -> btcln).
-
-For testing on-chain, you will need to download a bitcoin testnet wallet (unfortunatelly there is no online testnet web wallet). But for sending (solana -> btc) you can just try sending to some random testnet address (e.g. mijXVEL3Ko6fuE1p8M42R95ndVhgQGexEo) and then check it on block explorer [here](https://mempool.space/testnet/address/mijXVEL3Ko6fuE1p8M42R95ndVhgQGexEo)
-
-## What problems are we solving?
-- bitcoin is almost always left out of all the cross-chain bridges (as they are mostly focused on EVM chains), even though it has attained the highest liquidity and it has an immense network effect
-- few existing solution includes mainly trusted bridges or solutions like ren, relying on incentivised decentralized quorum of nodes
+## Motivation
+We are allowing Solana wallets to use existing bitcoin payment infrastructure - being able to seamlessly receive and pay with native bitcoin. Using lightning network, which with SolLightning can become a common payment protocol not just limited to Bitcoin and turn into global decentralized chain-agnostic payment protocol - you are able to settle (send/receive) lightning invoices in any SPL token (USDC, USDT, WBTC).
 
 ## Technology
-### Bitcoin Relay program
-- works by storing bitcoin block headers on-chain, with a program that verifies the blockheader consensus rules (this is easy for PoW blockchains)
-- this is completely trustless, permisionless (anyone can submit blockheaders) and relies on PoW to guarantee security
-- cost to fake the 6 consecutive block (required confirmations) would be 6.25btc\*6 (37.5 btc=881,250 usd) in the worst case
-- [on-chain program repo](https://github.com/adambor/BTCRelay-Sol)
-- [off-chain synchronizer app repo](https://github.com/adambor/BTCRelay-Sol-Offchain)
+### Bitcoin relay program
+Works by storing an SPV (simplified payment verification) copy of bitcoin blockchain on-chain, with an on-chain program that verifies the blockheader consensus rules. Anyone can then prove that he really sent a bitcoin transaction (and it got confirmed - included in a block) with just a merkle proof.
+More info [here](https://github.com/adambor/BTCRelay-Sol).
 
-### Submarine swaps (lightning network)
-- an atomic swap between bitcoin lightning and Solana on-chain
-- exploits the property that lightning network invoice requires the recipient to reveal a pre-image for the payment to execute
-- can improve on a security of regular atomic swaps by locking the the swap not till a specific timestamp but till a **Bitcoin Relay** conract reaches the specific blockheight
+### Submarine swaps (lightning network swaps)
+Similar to atomic swaps, but exploits the property that lightning network invoice requires the recipient to reveal a pre-image for the payment to confirm. Can improve on security and speed of regular atomic swaps by locking the the swap not till a specific timestamp but till a **Bitcoin Relay** program reaches the specific blockheight, this way both sides use the same time-chain.
+More info [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
 
-in depth explanation [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
+### Proof-time locked contracts (on-chain swaps)
+Similar to atomic swaps, but the claimer needs to prove (with merkle proof and **Bitcoin Relay** program) that he sent the desired bitcoin transaction and it confirmed on bitcoin blockchain. Can improve on security and speed of regular atomic swaps by locking the the swap not till a specific timestamp but till a **Bitcoin Relay** program reaches the specific blockheight, this way both sides use the same time-chain.
+More info [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-onchain-swaps.md)
 
-### PTLC and atomic swaps (on-chain)
-#### PTLC
-- transaction proof is not a pre-image to a hash but instead a proof that the transaction was included in a bitcoin block that was mined
+## Protocol workings
+Parties:
+- __Intermediary node__
+    - handles the cross-chain swaps
+    - needs liquidity on both chains
+    - determines prices
+    - earns swap fees
+    - has reputation (stored on-chain on Solana) - successful, failed, cooperative closed swaps
+- __Relayer/Watchtower__
+    - submits bitcoin blockheaders to bitcoin relay program and keep it in sync
+    - claims the swaps on behalf of clients
+    - earns a small fee for every claimed swap
+- __Client__
+    - intiates the swap
 
-in depth explanation [here](https://github.com/adambor/SolLightning-readme/blob/main/sol-onchain-swaps.md)
+The protocol is backed by __intermediary nodes__ and __relayers/watchtowers__, which can be run by anyone. There is a registry (for now a github repo, but will move on-chain), of every __intermediary node__ in the network.
 
-### Swap program
-#### Lightning swaps
-Creates an atomic swap like contract, where:
-- transaction proof is the pre-image of the hash of the lightning invoice
+Swap initialization:
+1. __Client__ fetches __intermediary nodes__ from registry, fetches their fees and reputation
+2. Based on these metrics the __client__ chooses an __intermediary node__ he wants to use
+3. __Client__ sends a request to the desired __intermediary node__ to initiate the swap, if the node is unresponsive, or returns invalid data he blacklists it internally and proceeds to send the same request to next best __intermediary node__.
 
-#### On-chain swaps (Solana -> Bitcoin)
-Creates an atomic swap like contract, where:
-- transaction proof is not a pre-image to a hash but instead a proof that the transaction was included in a bitcoin block that was mined
-
-#### On-chain swaps (Bitcoin -> Solana)
-Creates an atomic swap contract, where:
-- transaction proof is the pre-image of the hash needed to unlock the HTLC on bitcoin
-
-[on-chain program repo](https://github.com/adambor/SolLightning-program)
-
-[off-chain intermediary implementation repo](https://github.com/adambor/SolLightning-Intermediary)
-
-## Solution
-- an SDK for wallet developers, allowing any wallet to trustlessly receive and send bitcoin (on-chain and lightning)
-- [sdk repo](https://github.com/adambor/SolLightning-sdk)
-
-## Why Solana?
-- Solana enables super-quick confirmation of transactions, making the atomic swaps on-chain super quick and cheap
-- For bitcoin relay solana offers cheap storage and low fees for storing the data on-chain (0.0125 cents per stored header, compared to 25 cents on eth), decreasing daily running costs from 36 usd (eth) to 0.02 usd
-
-## Impact
-- with the advent of Bitcoin lightning network, which is extensible and could serve as a common payment protocol not just limited to Bitcoin, we think providing a bridge between Solana and such a payment protocol will add a lot of value on both ends, acting as a global decentralized chain-agnostic payment protocol
-
-## Use-cases/composability
-- solana wallets can receive/send bitcoin lightning and on-chain payments directly
+In case of Bitcoin on-chain to Solana swaps, the __client__ has to wait for certain number of confirmations on his bitcoin transaction till he is able to claim his funds on Solana (which with bitcoin's 10 minutes blocktime can take a long time). If a __client__ were to go offline during that time and not return before expiration of the PTLC (proof-time locked contract) he would loose his funds, therefore __relayers__ double-down also as __watchtowers__.
+1. All __relayers/watchtowers__ observe creation of Bitcoin -> Solana swaps on-chain.
+2. They do check if the bitcoin transaction corresponding to any of the currently active swaps did get enough confirmations in the blockheader that they are going to submit to bitcoin relay program.
+3. If there is a bitcoin transaction that claims the swap they will claim it on behalf of __the user__, while earning a small fee (currently rent exempt amount of lamports from the swap PDA \~0.0027 SOL)
 
 ## What's next?
-- improve upon the bitcoin relay and intermediary implementations, fix edge-cases
-- polish the SDK, to be easy to use for wallet or point of sale devs
-- incentive system for people to participate in bitcoin relay
-- have a way to automatically choose intermediary based on it's liquidity and reputation in either on-chain or off-chain registry
-- achieve higher capital efficiency for intermediaries by investing the funds locked in contract to DeFi, similar to how curve.fi operates on Ethereum
-- create an API for on-chain programs to be able to initiate bitcoin on-chain and lightning payments with a CPI (cross-program invocation)
-
-## Business model
-- taking a small fee (0.1%) from every transaction and saving it in a treasury
+- &#9744; improve upon the bitcoin relay and intermediary implementations, fix edge-cases
+- &#9744; polish the SDK, to be easy to use for wallet or point of sale devs
+- &#9745; incentive system for people to participate in bitcoin relay
+- &#9745; have a way to automatically choose intermediary based on it's liquidity and reputation in either on-chain or off-chain registry
+- &#9744; achieve higher capital efficiency for intermediaries by investing the funds locked in contract to DeFi, similar to how curve.fi operates on Ethereum
+- &#9744; create an API for on-chain programs to be able to initiate bitcoin on-chain and lightning payments with a CPI (cross-program invocation)
 
 ## Contact
 Via mail: adamborcany(at)gmail(dot)com
