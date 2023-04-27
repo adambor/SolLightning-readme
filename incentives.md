@@ -16,7 +16,7 @@ We propose the idea of security deposit, that needs to be deposited by claimer (
 
 The security deposit is composed of 2-4 parts
 
-##### Base fee - B
+#### Base fee - B
 Used to cover transaction fees for refund transaction.
 E1 - expected fee of the refund TX
 B - base fee
@@ -25,7 +25,7 @@ B = E1
 __Example:__
 B = E1 = 0.000005 Sol = $0.00012
 
-##### Proportional fee - P
+#### Proportional fee - P
 Denoted as % of amount, used to cover the opportunity cost of locked funds.  
 Y - desired yield p.a.  
 T - locked time in seconds  
@@ -42,11 +42,11 @@ Y = 10%
 T = 6\*3600  
 P = ((1+0.1)^(6/(365\*24)))-1 = 0.006%  
 
-##### Hedging fee (optional) - X
+#### Hedging fee (optional) - X
 For swaps between different currencies
 TODO - price hedging through options
 
-##### Watchtower fee (BTC -> Solana only) - W
+#### Watchtower fee (BTC -> Solana only) - W
 For swaps from on-chain BTC, we utilize watchtowers to claim the swaps on behalf of claimer (client), otherwise claimer might loose funds if he goes offline for a long time, therefore watchtowers need to be well-incentivized for handling these swaps. Absolute minimum is the sum of fees they have to pay to 1. synchronize BTC relay to required blockheight and 2. claim the swap.
 
 H0 - current height of BTC relay  
