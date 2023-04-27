@@ -82,7 +82,7 @@ W = 0.000385 + 0.000005 + 0.001 = 0.00139 Sol = $0.03
 ### Security deposit calculation
 D - swap deposit
 A - swap amount
-D = B + W + (X + P) \* A
+D = max(W, B + (X + P) \* A)
 
 Example (LN):
 A = 100,000 Sats = $27.29
@@ -98,4 +98,4 @@ B = 0.000005 Sol
 W = 0.00139 Sol
 X = 0
 P = 0.006%
-D = 0.000005 Sol + 0.00139 Sol + 0.00006 \* 1,000,000 Sats = 0.001395 Sol + 60 Sats = 0.001395 Sol + 0.00072 Sol = 0.002115 Sol = $0.04653
+D = max(0.00139 Sol, 0.000005 Sol + 0.00006 \* 1,000,000 Sats) = max(0.00139 Sol, 0.000005 Sol + 60 Sats) = max(0.00139 Sol, 0.000725 Sol) = 0.00139 Sol = $0.031
