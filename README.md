@@ -1,7 +1,7 @@
 # SolLightning
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/SolLightning.svg?style=social&label=Follow%20%40SolLightning)](https://twitter.com/SolLightning)
 
-A fully trustless bridge protocol between Solana (any SPL token) <-> Bitcoin (on-chain and lightning). Utilizing submarine swaps (for lightning network swaps) and on-chain SPV verification through [bitcoin relay](https://github.com/adambor/BTCRelay-Sol) (for on-chain).
+A fully trustless DEX (decentralized exchange) protocol between Solana (any SPL token) <-> Bitcoin (on-chain and lightning). Utilizing submarine swaps (for lightning network swaps) and on-chain SPV verification through [bitcoin relay](https://github.com/adambor/BTCRelay-Sol) (for on-chain).
 
 **NOTE:** We are not issuing a new wrapped bitcoin token on Solana, as that would require overcollateralization (and be exposed to exchange rate and oracle risks), which we deem insecure, therefore SolLightning is only acting as a cross-chain DEX (Any SPL token <-> Bitcoin).
 
@@ -73,7 +73,7 @@ Swap initialization:
 In case of Bitcoin on-chain to Solana swaps, the __client__ has to wait for certain number of confirmations on his bitcoin transaction till he is able to claim his funds on Solana (which with bitcoin's 10 minutes blocktime can take a long time). If a __client__ were to go offline during that time and not return before expiration of the PTLC (proof-time locked contract) he would loose his funds, therefore __relayers__ double-down also as __watchtowers__.
 1. All __relayers/watchtowers__ observe creation of Bitcoin -> Solana swaps on-chain.
 2. They do check if the bitcoin transaction corresponding to any of the currently active swaps did get enough confirmations in the blockheader that they are going to submit to bitcoin relay program.
-3. If there is a bitcoin transaction that claims the swap they will claim it on behalf of __the user__, while earning a small fee (currently rent exempt amount of lamports from the swap PDA \~0.0027 SOL)
+3. If there is a bitcoin transaction that claims the swap they will claim it on behalf of __the user__, while earning a small fee (currently rent exempt amount of lamports from the swap PDA ~ 0.0027 SOL)
 
 ## What's next?
 - &#9744; improve upon the bitcoin relay and intermediary implementations, fix edge-cases
