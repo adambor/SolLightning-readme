@@ -5,6 +5,8 @@ A fully trustless DEX (decentralized exchange) protocol between Solana (any SPL 
 
 **NOTE:** We are not issuing a new wrapped bitcoin token on Solana, as that would require overcollateralization (and be exposed to exchange rate and oracle risks), which we deem insecure, therefore SolLightning is only acting as a cross-chain DEX (Any SPL token <-> Bitcoin).
 
+Live web-app link: https://app.solbtc.org/
+
 ## Explainers
 - [Bitcoin lightning <-> Solana](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
 - [Bitcoin on-chain <-> Solana](https://github.com/adambor/SolLightning-readme/blob/main/sol-onchain-swaps.md)
