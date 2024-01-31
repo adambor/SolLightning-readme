@@ -35,6 +35,8 @@ Contract similar to HTLC (hash-time locked contract), where claimer needs to pro
 ##### Intermediary went offline
 4. **Payer** waits till the expiry of _locktime T_ and then refunds his funds back from the PTLC
 
+### Diagram
+![To BTC diagram](https://github.com/adambor/SolLightning-readme/blob/main/flows/tobtc-diagram.drawio.png)
 
 ## Bitcoin on-chain -> Solana
 
@@ -65,6 +67,8 @@ Contract similar to HTLC (hash-time locked contract), where claimer needs to pro
 ##### Payment cancelled
 3. **Payee** is sure that no bitcoin payment will come and wishes to cancel the payment (there is no going back from there), he closes the PTLC, refunding the funds back to **intermediary** while keeping part of the non-refundable fee
 
+### Diagram
+![From BTC diagram](https://github.com/adambor/SolLightning-readme/blob/main/flows/frombtc-diagram.drawio.png)
 
 ## Watchtowers
 For Bitcoin on-chain -> Solana swaps, the payee needs to be online in time after the bitcoin transaction confirms on bitcoin blockchain, should he wait too long before claiming the funds, the PTLC might expire and he looses the funds.
