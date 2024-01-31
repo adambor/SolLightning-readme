@@ -39,6 +39,9 @@ Submarine swaps are based on a fact that in order to settle a bitcoin lightning 
 ##### Intermediary went offline
 5. **Payer** waits till the expiry of _locktime T_ and then refunds his funds back from the HTLC
 
+### Diagram
+![To BTC-LN diagram](https://github.com/adambor/SolLightning-readme/blob/main/flows/tobtcln-diagram.drawio.png)
+
 ## Bitcoin lightning -> Solana
 
 ### Requirements
@@ -66,6 +69,9 @@ Submarine swaps are based on a fact that in order to settle a bitcoin lightning 
 
 ##### Payee went offline
 6. **Intermediary** waits till the expiry of _locktime T_ and then refunds his funds back from the HTLC
+
+### Diagram
+![From BTC-LN diagram](https://github.com/adambor/SolLightning-readme/blob/main/flows/frombtcln-diagram.drawio.png)
 
 ## Locktime
 A locktime for atomic swaps needs to account for several things:
