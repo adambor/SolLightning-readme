@@ -1,11 +1,13 @@
 # atomiq.exchange (formerly SolLightning)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/atomiqlabs.svg?style=social&label=Follow%20%40atomiqlabs)](https://twitter.com/atomiqlabs)
 
+Website: https://www.atomiq.exchange/
+
+Docs: https://docs.atomiq.exchange/
+
 A fully trustless DEX (decentralized exchange) protocol between Solana (any SPL token) <-> Bitcoin (on-chain and lightning). Utilizing submarine swaps (for lightning network swaps) and on-chain SPV verification through [bitcoin relay](https://github.com/adambor/BTCRelay-Sol) (for on-chain).
 
 **NOTE:** We are not issuing a new wrapped bitcoin token on Solana, as that would require overcollateralization (and be exposed to exchange rate and oracle risks), which we deem insecure, therefore SolLightning is only acting as a cross-chain DEX (Any SPL token <-> Bitcoin).
-
-Live web-app link: https://app.atomiq.exchange/
 
 ## Explainers
 - [Bitcoin lightning <-> Solana](https://github.com/adambor/SolLightning-readme/blob/main/sol-submarine-swaps.md)
